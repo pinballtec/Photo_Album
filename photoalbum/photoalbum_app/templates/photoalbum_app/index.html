@@ -9,6 +9,7 @@
     <style>
         .image-thumbail{
             height: 200px;
+            /* object-fit: cover; */
         }
     </style>
 </head>
@@ -27,6 +28,7 @@
                     <li class="list-group-item">Cras justo odio</li>
                     <li class="list-group-item">Dapibus ac facilisis in</li>
                     <li class="list-group-item">Vestibulum at eros</li>
+                    <a href="{% url 'add_photo' %}" class="btn btn-block btn-dark btn-sm m-1">Add photo</a>
                   </ul>
                 </div>
 
@@ -44,7 +46,7 @@
                             <div class="card-body">
                               <p>Category: Cars</p>
                             </div>
-                            <a class="btn btn-outline-dark btn-sm m1">View</a>
+                            <a href = "{% url 'view_photo' 5 %}" class="btn btn-outline-dark btn-sm m1">View</a>
                           </div>
                     </div>
 
@@ -57,7 +59,7 @@
                             <div class="card-body">
                               <p>Category: Cars</p>
                             </div>
-                            <a class="btn btn-outline-dark btn-sm m1">View</a>
+                            <a href = "{% url 'view_photo' 5 %}" class="btn btn-outline-dark btn-sm m1">View</a>
                           </div>
                     </div>
 
@@ -70,7 +72,7 @@
                             <div class="card-body">
                               <p>Category: Cars</p>
                             </div>
-                            <a class="btn btn-outline-dark btn-sm m1">View</a>
+                            <a href = "{% url 'view_photo' 5 %}" class="btn btn-outline-dark btn-sm m1">View</a>
                           </div>
                     </div>
 
@@ -83,7 +85,7 @@
                             <div class="card-body">
                               <p>Category: Cars</p>
                             </div>
-                            <a class="btn btn-outline-dark btn-sm m1">View</a>
+                            <a href = "{% url 'view_photo' 5 %}" class="btn btn-outline-dark btn-sm m1">View</a>
                           </div>
                     </div>
                 
