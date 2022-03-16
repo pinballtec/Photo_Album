@@ -11,22 +11,32 @@
             height: 200px;
             /* object-fit: cover; */
         }
+        .list-group-item a{
+            text-decoration: none;
+            color: black;
+        }
     </style>
 </head>
 
 <body class = 'm-5'>
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-3">
 
                 <div class="card">
                     <div class = "card-header">
-                        Category
+                        Categories
                     </div>
                   <ul class="list-group list-group-flush">
-                    <li class="list-group-item">All</li>
+                    <li class="list-group-item">
+                        <a href="{% url 'main_page' %}">All</a>
+                    </li>
                     {%for category in categories %}
-                    <li class="list-group-item">{{category.name}}</li>
+                    <li class="list-group-item">
+                        <a href="{% url 'main_page' %}?category={{category.name}}">
+                            {{category.name}}
+                        </a>
+                    </li>
                     {% endfor %}
                     <a href="{% url 'add_photo' %}" class="btn btn-block btn-dark btn-sm m-1">Add photo</a>
                   </ul>

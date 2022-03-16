@@ -5,9 +5,14 @@ from django.http import HttpResponse
 
 
 def main(request):
-    category = Category.objects.all()
-    photos = Photo.objects.all()
-    context = {'categories': category, 'photos': photos}
+    category = request.GET.get('category')
+    if category == None:
+        photos = Photo.objects.all()
+    else:
+        photos = Photo.objects.filter(category__name=category)
+
+    categories = Category.objects.all()
+    context = {'categories': categories, 'photos': photos}
     return render(request, 'photoalbum_app/index.html', context)
 
 
