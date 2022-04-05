@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Category, Photo
+from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 # Create your views here.
 
@@ -42,3 +43,17 @@ def add_photo(request):
 def view_photo(request, pk):
     photo = Photo.objects.get(id=pk)
     return render(request, 'photoalbum_app/photo.html', {'photo': photo})
+
+
+def login(request):
+    return render(request, 'photoalbum_app/login.html')
+
+
+def register(request):
+    form = UserCreationForm()
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+    context = {'form': form}
+    return render(request, 'photoalbum_app/register.html', context)
