@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Category, Photo
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
 # Create your views here.
 
 
@@ -45,7 +46,16 @@ def view_photo(request, pk):
     return render(request, 'photoalbum_app/photo.html', {'photo': photo})
 
 
-def login(request):
+def login_page(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('main_page')
     return render(request, 'photoalbum_app/login.html')
 
 
