@@ -5,30 +5,34 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from .forms import CustomUserCreationForm
 # Create your views here.
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url=login)
 def main(request):
+    user = request.user
     category = request.GET.get('category')
     if category == None:
-        photos = Photo.objects.all()
+        photos = Photo.objects.filter(category__user=user)
     else:
-        photos = Photo.objects.filter(category__name=category)
+        photos = Photo.objects.filter(category__name=category, category__user=user)
 
-    categories = Category.objects.all()
+    categories = Category.objects.filter(user=user)
     context = {'categories': categories, 'photos': photos}
     return render(request, 'photoalbum_app/index.html', context)
 
 
+@login_required(login_url=login)
 def add_photo(request):
-    category = Category.objects.all()
+    user = request.user
+    category = Category.objects.filter(user=user)
     if request.method == 'POST':
         data = request.POST
         image = request.FILES.get('image')
         if data['category'] != 'none':
             category = Category.objects.get(id=data['category'])
         elif data['category_new'] != '':
-            category, created = Category.objects.get_or_create(
-                name=data['category_new'])
+            category, created = Category.objects.get_or_create(user=user, name=data['category_new'])
         else:
             category = None
         photo = Photo.objects.create(
@@ -42,6 +46,7 @@ def add_photo(request):
     return render(request, 'photoalbum_app/add.html', context)
 
 
+@login_required(login_url=login)
 def view_photo(request, pk):
     photo = Photo.objects.get(id=pk)
     return render(request, 'photoalbum_app/photo.html', {'photo': photo})
