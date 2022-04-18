@@ -3,6 +3,7 @@ from .models import Category, Photo
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
+from .forms import CustomUserCreationForm
 # Create your views here.
 
 
@@ -47,6 +48,7 @@ def view_photo(request, pk):
 
 
 def login_page(request):
+    page = 'login'
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -54,7 +56,7 @@ def login_page(request):
         if user is not None:
             login(request, user)
             return redirect('main_page')
-    return render(request, 'photoalbum_app/login.html')
+    return render(request, 'photoalbum_app/login.html', {'page': page})
 
 
 def logout_page(request):
@@ -63,10 +65,15 @@ def logout_page(request):
 
 
 def register(request):
-    form = UserCreationForm()
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
+    page = 'register'
+    form = CustomUserCreationForm()
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.save()
+            if user is not None:
+                login(request, user)
+                return redirect('main_page')
     context = {'form': form}
-    return render(request, 'photoalbum_app/register.html', context)
+    return render(request, 'photoalbum_app/login.html', context)

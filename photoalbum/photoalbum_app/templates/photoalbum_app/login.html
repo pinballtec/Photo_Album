@@ -19,6 +19,7 @@
 <body>
     <div class="container">
       <div class="wrapper">
+        {% if page == 'login' %}
         <form method="POST" class="form">
           {% csrf_token %}
           <h1>Login</h1>
@@ -36,7 +37,30 @@
             <label class="form-check-label" for="exampleCheck1">Check me out</label>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
+          <div class="mb-3 form-check">
+            <div class="d-flex justify-content-center links">
+              <p>Don't have an account? <a href="{% url 'register' %}"> Sign Up</a></p>
+            </div>
+          </div>
         </form>
+        {% else %}
+          <form method="POST" class="form">
+            {% csrf_token %}
+            <h1>Registration</h1>
+            {% for field in form %}
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">{{field.label}}</label>
+              {{field}}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="mb-3 form-check">
+              <div class="d-flex justify-content-center links">
+                <p>Have an account? <a href="{% url 'login' %}"> Login</a></p>
+              </div>
+            </div>
+          </form>
+        {% endif %}
       </div>
     </div>
 </body>
